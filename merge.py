@@ -29,8 +29,9 @@ class MergeRequest:
     def __init__(self):
         self._context = {"upvotes": set(), "downvotes": set()}
         self._status = MergeStatus.OPEN
+        self.set_status()
 
-    def status(self):
+    def set_status(self):
         if self._status == MergeStatus.CLOSED:
             return self._status
         if self._context["downvotes"]:
@@ -40,6 +41,11 @@ class MergeRequest:
         else:
             self._status = MergeStatus.PENDING
         return self._status
+    
+    
+    def status(self):
+        return self._status
+
 
     def remove_users_previous_votes(self, voting_user):
         self._context["upvotes"].discard(voting_user)
@@ -58,17 +64,21 @@ class MergeRequest:
             self._context["upvotes"].add(voting_user)
         else:
             return "not correct type"
+        
+        self.set_status()
+
 
     def close(self):
-        current_status = self.status()
-        if current_status == MergeStatus.APPROVED:
+        self.set_status()
+        if self._status == MergeStatus.APPROVED:
             self._status = MergeStatus.CLOSED
             return "Merge request has been approved and closed"
-        elif current_status == MergeStatus.REJECTED:
+        elif self._status == MergeStatus.REJECTED:
             self._status = MergeStatus.CLOSED
             return "Merge request has been rejected and closed"
         else:
             return "Cannot close merge request until it has been approved or rejected"
+
 
     def getvotes(self):
         upvotes = len(self._context["upvotes"])

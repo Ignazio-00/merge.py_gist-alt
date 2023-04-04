@@ -13,3 +13,17 @@ a hard to debug error could occure
 Code Duplication
 * In "def close(...)" for example the status method is requested twice. A variable could be
 used to prevent this
+
+Bad Names
+* For example upvotes is to unspecific, it could be a list of upvotes or a number representing upvotes
+
+
+------------
+These can only be changed by changing the tests:
+------------
+
+Strings are used to represent various status of the class they could be replaced 
+if variables, booleans are used instead
+
+The status doesnt have to always gotten when a user calls the method, rather when a
+new upvote is created
