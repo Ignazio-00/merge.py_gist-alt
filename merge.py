@@ -60,10 +60,11 @@ class MergeRequest:
             return "not correct type"
 
     def close(self):
-        if self.status() == MergeStatus.APPROVED:
+        current_status = self.status()
+        if current_status == MergeStatus.APPROVED:
             self._status = MergeStatus.CLOSED
             return "Merge request has been approved and closed"
-        elif self.status() == MergeStatus.REJECTED:
+        elif current_status == MergeStatus.REJECTED:
             self._status = MergeStatus.CLOSED
             return "Merge request has been rejected and closed"
         else:
