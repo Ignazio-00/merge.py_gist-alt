@@ -1,0 +1,15 @@
+Conditional Trees that are to deep
+* In "def status(...)" there are a lot of if else statements that make 
+the function look more complicated than it should be
+
+Seperation of Concerns
+* A function should have only one functionality, and not do to many things,
+"def close()" adds a vote and removes a vote and this can be broken up
+
+Overuse of Strings
+* Using strings to represent the status is suboptimal, when a string is mistyped then
+a hard to debug error could occure
+
+Code Duplication
+* In "def close(...)" for example the status method is requested twice. A variable could be
+used to prevent this
