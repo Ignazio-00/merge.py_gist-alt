@@ -28,17 +28,17 @@ class MergeRequest:
 
     def __init__(self):
         self._context = {"upvotes": set(), "downvotes": set()}
-        self._status = "open"
+        self._status = MergeStatus.OPEN
 
     def status(self):
-        if self._status == "closed":
+        if self._status == MergeStatus.CLOSED:
             return self._status
         if self._context["downvotes"]:
-            self._status = "rejected"
+            self._status = MergeStatus.REJECTED
         elif len(self._context["upvotes"]) >= 2:
-            self._status = "approved"
+            self._status = MergeStatus.APPROVED
         else:
-            self._status = "pending"
+            self._status = MergeStatus.PENDING
         return self._status
 
     def remove_users_previous_votes(self, voting_user):
@@ -47,7 +47,7 @@ class MergeRequest:
         
     
     def vote(self, voting_user, vote_type):
-        if self._status == "closed":
+        if self._status == MergeStatus.CLOSED:
             return "can't vote on a closed merge request"
         
         self.remove_users_previous_votes(voting_user)
@@ -60,11 +60,11 @@ class MergeRequest:
             return "not correct type"
 
     def close(self):
-        if self.status() == "approved":
-            self._status = "closed"
+        if self.status() == MergeStatus.APPROVED:
+            self._status = MergeStatus.CLOSED
             return "Merge request has been approved and closed"
-        elif self.status() == "rejected":
-            self._status = "closed"
+        elif self.status() == MergeStatus.REJECTED:
+            self._status = MergeStatus.CLOSED
             return "Merge request has been rejected and closed"
         else:
             return "Cannot close merge request until it has been approved or rejected"
