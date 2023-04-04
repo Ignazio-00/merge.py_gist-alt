@@ -32,16 +32,20 @@ class MergeRequest:
             self._status = "pending"
         return self._status
 
-
+    def remove_users_previous_votes(self, voting_user):
+        self._context["upvotes"].discard(voting_user)
+        self._context["downvotes"].discard(voting_user)
+        
+    
     def vote(self, voting_user, vote_type):
         if self._status == "closed":
             return "can't vote on a closed merge request"
-
+        
+        self.remove_users_previous_votes(voting_user)
+        
         if vote_type == "downvote":
-            self._context["upvotes"].discard(voting_user)
             self._context["downvotes"].add(voting_user)
         elif vote_type == "upvote":
-            self._context["downvotes"].discard(voting_user)
             self._context["upvotes"].add(voting_user)
         else:
             return "not correct type"
