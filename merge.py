@@ -1,3 +1,12 @@
+from enum import Enum
+
+class MergeStatus:
+    OPEN = "open"
+    PENDING = "pending"
+    REJECTED = "rejected"
+    APPROVED = "approved"
+    CLOSED = "closed"
+
 class MergeRequest:
     """
     Represents a merge request that can be voted on by users.
