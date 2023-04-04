@@ -26,11 +26,10 @@ class MergeRequest:
             return self._status
         if self._context["downvotes"]:
             return "rejected"
+        elif len(self._context["upvotes"]) >= 2:
+            return "approved"
         else:
-            if len(self._context["upvotes"]) >= 2:
-                return "approved"
-            else:
-                return "pending"
+            return "pending"
 
 
     def vote(self, by_user, type):
